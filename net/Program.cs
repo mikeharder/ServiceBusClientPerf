@@ -77,7 +77,7 @@ namespace ServiceBusClientPerf
                 var currentElapsed = elapsed - lastElapsed;
                 lastElapsed = elapsed;
 
-                if ((currentMessages / currentElapsed) > (maxMessages / maxElapsed) {
+                if ((currentMessages / currentElapsed) > (maxMessages / maxElapsed)) {
                     maxMessages = currentMessages;
                     maxElapsed = currentElapsed;
                 }
