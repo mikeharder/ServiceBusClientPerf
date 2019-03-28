@@ -69,7 +69,7 @@ async function WriteResults(messages: number): Promise<void> {
     let currentElapsed = elapsed - lastElapsed;
     lastElapsed = elapsed;
 
-    if (currentMessages > maxMessages) {
+    if ((currentMessages / currentElapsed) > (maxMessages / maxElapsed) {
       maxMessages = currentMessages;
       maxElapsed = currentElapsed;
     }
