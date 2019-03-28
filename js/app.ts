@@ -54,9 +54,9 @@ async function ExecuteSendsAsync(sender: any, messages: number) {
 
 async function WriteResults(messages: number): Promise<void> {
   let lastMessages = 0;
-  let lastElapsed = 0;
+  let lastElapsed = Number.MAX_SAFE_INTEGER;
   let maxMessages = 0;
-  let maxElapsed = 0;
+  let maxElapsed = Number.MAX_SAFE_INTEGER;
 
   do {
     await delay(1000);
