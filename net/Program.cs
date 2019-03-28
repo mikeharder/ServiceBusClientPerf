@@ -67,7 +67,7 @@ namespace ServiceBusClientPerf
                 await Task.Delay(TimeSpan.FromSeconds(1));
 
                 var sentMessages = _messages;
-                var currentRequests = sentMessages - lastMessages;
+                var currentMessages = sentMessages - lastMessages;
                 lastMessages = sentMessages;
 
 
@@ -75,7 +75,7 @@ namespace ServiceBusClientPerf
                 var currentElapsed = elapsed - lastElapsed;
                 lastElapsed = elapsed;
 
-                WriteResult(sentMessages, elapsed, currentRequests, currentElapsed);
+                WriteResult(sentMessages, elapsed, currentMessages, currentElapsed);
             }
             while (Interlocked.Read(ref _messages) < messages);
         }
@@ -83,8 +83,7 @@ namespace ServiceBusClientPerf
         private static void WriteResult(long totalMessages, TimeSpan totalElapsed,
             long currentMessages, TimeSpan currentElapsed)
         {
-            Console.WriteLine(
-                $"{DateTime.UtcNow.ToString("o")}\tTot Msg\t{totalMessages}" +
+            Log($"\tTot Msg\t{totalMessages}" +
                 $"\tCur MPS\t{Math.Round(currentMessages / currentElapsed.TotalSeconds)}" +
                 $"\tAvg MPS\t{Math.Round(totalMessages / totalElapsed.TotalSeconds)}"
             );
