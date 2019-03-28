@@ -55,6 +55,8 @@ async function ExecuteSendsAsync(sender: any, messages: number) {
 async function WriteResults(messages: number): Promise<void> {
   let lastMessages = 0;
   let lastElapsed = 0;
+  let maxMessages = 0;
+  let maxElapsed = 0;
 
   do {
     await delay(1000);
@@ -67,15 +69,24 @@ async function WriteResults(messages: number): Promise<void> {
     let currentElapsed = elapsed - lastElapsed;
     lastElapsed = elapsed;
 
-    WriteResult(sentMessages, elapsed, currentMessages, currentElapsed);
+    if (currentMessages > maxMessages) {
+      maxMessages = currentMessages;
+      maxElapsed = currentElapsed;
+    }
+
+    WriteResult(sentMessages, elapsed, currentMessages, currentElapsed, maxMessages, maxElapsed);
   }
   while (_messages < messages);
 }
 
-function WriteResult(totalMessages: number, totalElapsed: number, currentMessages: number, currentElapsed: number) {
+function WriteResult(totalMessages: number, totalElapsed: number,
+  currentMessages: number, currentElapsed: number,
+  maxMessages: number, maxElapsed: number) {
   log(`\tTot Msg\t${totalMessages}` +
       `\tCur MPS\t${Math.round(currentMessages/ currentElapsed * 1000)}` +
-      `\tAvg MPS\t${Math.round(totalMessages / totalElapsed * 1000)}`);
+      `\tAvg MPS\t${Math.round(totalMessages / totalElapsed * 1000)}` +
+      `\tMax MPS\t${Math.round(maxMessages / totalElapsed * 1000)}`
+      );
 }
 
 function log(message: string) {

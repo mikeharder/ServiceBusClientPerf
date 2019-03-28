@@ -61,6 +61,8 @@ namespace ServiceBusClientPerf
         {
             var lastMessages = (long)0;
             var lastElapsed = TimeSpan.Zero;
+            var maxMessages = (long)0;
+            var maxElapsed = TimeSpan.Zero;
 
             do
             {
@@ -75,17 +77,23 @@ namespace ServiceBusClientPerf
                 var currentElapsed = elapsed - lastElapsed;
                 lastElapsed = elapsed;
 
-                WriteResult(sentMessages, elapsed, currentMessages, currentElapsed);
+                if (currentMessages > maxMessages) {
+                    maxMessages = currentMessages;
+                    maxElapsed = currentElapsed;
+                }
+
+                WriteResult(sentMessages, elapsed, currentMessages, currentElapsed, maxMessages, maxElapsed);
             }
             while (Interlocked.Read(ref _messages) < messages);
         }
 
         private static void WriteResult(long totalMessages, TimeSpan totalElapsed,
-            long currentMessages, TimeSpan currentElapsed)
+            long currentMessages, TimeSpan currentElapsed, long maxMessages, TimeSpan maxElapsed)
         {
             Log($"\tTot Msg\t{totalMessages}" +
                 $"\tCur MPS\t{Math.Round(currentMessages / currentElapsed.TotalSeconds)}" +
-                $"\tAvg MPS\t{Math.Round(totalMessages / totalElapsed.TotalSeconds)}"
+                $"\tAvg MPS\t{Math.Round(totalMessages / totalElapsed.TotalSeconds)}" +
+                $"\tMax MPS\t{Math.Round(maxMessages / maxElapsed.TotalSeconds)}"
             );
         }
 
