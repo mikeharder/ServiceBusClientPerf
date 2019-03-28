@@ -60,9 +60,9 @@ namespace ServiceBusClientPerf
         private static async Task WriteResults(long messages)
         {
             var lastMessages = (long)0;
-            var lastElapsed = TimeSpan.Zero;
+            var lastElapsed = TimeSpan.MaxValue;
             var maxMessages = (long)0;
-            var maxElapsed = TimeSpan.Zero;
+            var maxElapsed = TimeSpan.MaxValue;
 
             do
             {
@@ -71,7 +71,6 @@ namespace ServiceBusClientPerf
                 var sentMessages = _messages;
                 var currentMessages = sentMessages - lastMessages;
                 lastMessages = sentMessages;
-
 
                 var elapsed = _stopwatch.Elapsed;
                 var currentElapsed = elapsed - lastElapsed;
