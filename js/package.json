@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@azure/service-bus": "^1.0.0-preview.1",
+    "delay": "^4.1.0",
     "moment": "^2.24.0"
   }
 }
